@@ -4,6 +4,8 @@ exports.up = function (knex) {
     table.string('name').notNull();
     table.string('email').notNull().unique();
     table.string('phone').notNull().unique();
+    table.string('cpf').notNull().unique();
+    table.string('rg').notNull().unique();
     table.date('birth').notNull();
     table.string('gender').notNull();
     table.float('weight').notNull();

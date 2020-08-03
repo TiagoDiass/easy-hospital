@@ -57,6 +57,24 @@ class PatientController {
       patient,
     });
   }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    if (!(await PatientValidations.checkIfExists({ id }))) {
+      return res.status(400).json({
+        status: 400,
+        erro: 'Não encontramos nenhum usuário com o ID informado',
+      });
+    }
+
+    await knex('patients').where({ id }).del();
+
+    return res.json({
+      status: 200,
+      mensagem: 'Paciente excluído com sucesso',
+    });
+  }
 }
 
 export default new PatientController();

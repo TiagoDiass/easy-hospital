@@ -13,7 +13,9 @@ module.exports = {
 
     seeds: {
       directory: './src/database/seeds'
-    }
+    },
+
+    useNullAsDefault: true
   },
 
 };

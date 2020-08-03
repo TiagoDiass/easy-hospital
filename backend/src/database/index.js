@@ -1,6 +1,6 @@
 import knex from 'knex';
 import knexfile from '../../knexfile';
 
-const knex = knex(knexfile.development);
+const knexInstance = knex(knexfile.development);
 
-export default knex;
+export default knexInstance;

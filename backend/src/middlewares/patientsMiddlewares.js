@@ -5,6 +5,7 @@ class PatientsMiddlewares {
   async validateData(req, res, next) {
     const { email, phone, cpf, rg } = req.body;
 
+    // Creating a schema to check if the request body is valid
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       email: Yup.string().email().required(),

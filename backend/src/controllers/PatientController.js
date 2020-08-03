@@ -1,5 +1,4 @@
 import knex from '../database/index';
-import PatientValidations from '../validations/PatientValidations';
 
 class PatientController {
   async index(req, res) {
@@ -9,8 +8,30 @@ class PatientController {
   }
 
   async store(req, res) {
-    return res.json({
-      ok: true,
+    const { name, email, phone, cpf, rg, birth, gender, weight, height, blood_type } = req.body;
+
+    const newPatientId = await knex('patients').insert({
+      name,
+      email,
+      phone,
+      cpf,
+      rg,
+      birth,
+      gender,
+      weight,
+      height,
+      blood_type,
+    });
+
+    const [newPatient] = await knex('patients')
+      .where({
+        id: newPatientId,
+      })
+      .select('*');
+
+    return res.status(201).json({
+      status: 201,
+      newPatient,
     });
   }
 }

@@ -6,7 +6,7 @@ const routes = new Router();
 
 routes.get('/', PatientController.index);
 routes.post('/new', PatientsMiddlewares.validateData, PatientController.store);
-//routes.get('/:id', PatientController.getOne)
+routes.get('/:id', PatientController.getOne);
 //routes.put('/:id', PatientController.edit)
 //routes.delete('/:id', PatientController.delete)
 

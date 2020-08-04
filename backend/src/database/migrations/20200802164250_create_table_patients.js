@@ -11,7 +11,6 @@ exports.up = function (knex) {
     table.float('weight').notNull();
     table.integer('height').notNull();
     table.string('blood_type').notNull();
-    table.timestamps();
   });
 };
 

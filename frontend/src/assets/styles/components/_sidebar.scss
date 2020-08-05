@@ -1,0 +1,20 @@
+#sidebar {
+    background-color: $primary;
+    position: fixed;
+    width: 250px;
+    border-right: 2px solid $secondary;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    color: white;
+    padding: 40px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    h1.logo {
+        font-size: 2.1rem;
+        margin-top: 1.2rem;
+    }
+}

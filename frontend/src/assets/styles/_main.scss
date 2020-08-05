@@ -1,0 +1,36 @@
+/* SCSS Modules */
+@import "variables";
+@import "bootstrap";
+@import "general";
+
+/* Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+/* Component styles */
+@import "components/sidebar";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    font-size: 16px;
+}
+
+#container {
+    margin-left: 250px;
+    height: 100%;
+    padding: 20px 35px;
+}
+
+#app {
+    height: 100%;
+    width: 100%;
+    background-color: #FDFDFD;
+}

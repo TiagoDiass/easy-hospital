@@ -5,3 +5,16 @@
 .text-bold {
     font-weight: 600;
 }
+
+.btn {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.btn-info {
+    color: white;
+
+    &:hover {
+        color: white;
+    }
+}

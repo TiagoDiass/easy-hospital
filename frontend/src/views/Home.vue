@@ -43,13 +43,13 @@
       </p>
       <ul class="p-2 ml-5">
         <li>
-          <a href="https://github.com/TiagoDiass/hospital-system" target="_blank" class="btn btn-info">
+          <a href="https://github.com/TiagoDiass/hospital-system" target="_blank" class="btn btn-secondary">
             Código fonte da aplicação
             <i class="fas fa-code"></i>
           </a>
         </li>
         <li class="mt-1">
-          <a href="https://github.com/TiagoDiass" target="_blank" class="btn btn-info">
+          <a href="https://github.com/TiagoDiass" target="_blank" class="btn btn-secondary">
             Desenvolvedor
             <i class="fab fa-dev"></i>
           </a>

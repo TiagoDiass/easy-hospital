@@ -1,20 +1,24 @@
 .text-300 {
-    font-weight: 300;
+  font-weight: 300;
 }
 
 .text-bold {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .btn {
-    text-transform: uppercase;
-    font-weight: 600;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
-.btn-info {
-    color: white;
+.btn.disabled {
+  cursor: initial;
+}
 
-    &:hover {
-        color: white;
-    }
+.btn-secondary {
+  color: white;
+
+  &:hover {
+    color: white;
+  }
 }

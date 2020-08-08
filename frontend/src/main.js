@@ -4,6 +4,7 @@ import router from './router';
 import store from './store';
 
 import './plugins/globalComponents';
+import './plugins/sweetAlert';
 
 // Running the styles of the app
 import './assets/styles/_main.scss';

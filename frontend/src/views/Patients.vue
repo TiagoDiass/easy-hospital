@@ -43,6 +43,10 @@
           <span v-if="props.column.field == 'cpf-slot'">
             {{ props.row.cpf | cpf }}
           </span>
+
+          <span v-else-if="props.column.field == 'phone-slot'">
+            {{ props.row.phone | phone }}
+          </span>
         </template>
       </VueGoodTable>
     </div>

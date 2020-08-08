@@ -5,6 +5,8 @@ import store from './store';
 
 import './plugins/globalComponents';
 import './plugins/sweetAlert';
+import './plugins/axios';
+import './plugins/filters';
 
 // Running the styles of the app
 import './assets/styles/_main.scss';

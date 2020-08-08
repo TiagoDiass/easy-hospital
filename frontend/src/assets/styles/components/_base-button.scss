@@ -1,0 +1,51 @@
+.btn {
+    text-transform: uppercase;
+    font-weight: 600;
+
+    &.disabled {
+        cursor: initial;
+    }
+
+    &.btn-secondary {
+        color: white;
+
+        &:hover {
+            color: white;
+        }
+    }
+
+    &.btn-warning {
+        color: white;
+
+        &:active {
+            color: white !important;
+        }
+    }
+
+    &.btn-whatsapp {
+        color: white;
+        background-color: #25d366;
+
+        &:hover {
+            background-color: #19BD57;
+        }
+    }
+
+    &.btn-email {
+        color: white;
+        background-color: #2980B9;
+
+        &:hover {
+            background-color: #2377AD;
+        }
+    }
+
+    &.btn-purple {
+        color: white;
+        background-color: #9B59B6;
+
+        &:hover {
+            background-color: #8949A3;
+        }
+    }
+}

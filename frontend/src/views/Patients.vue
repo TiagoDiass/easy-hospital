@@ -47,6 +47,31 @@
           <span v-else-if="props.column.field == 'phone-slot'">
             {{ props.row.phone | phone }}
           </span>
+
+          <div
+            v-else-if="props.column.field == 'after'"
+            class="media-body text-rigth d-flex justify-content-around after-row"
+          >
+            <base-button type="whatsapp">
+              <i class="fab fa-whatsapp"></i>
+            </base-button>
+
+            <base-button type="email">
+              <i class="fas fa-envelope"></i>
+            </base-button>
+
+            <base-button type="purple">
+              <i class="fas fa-eye"></i>
+            </base-button>
+
+            <base-button type="warning">
+              <i class="fas fa-edit"></i>
+            </base-button>
+
+            <base-button type="danger">
+              <i class="fas fa-trash-alt"></i>
+            </base-button>
+          </div>
         </template>
       </VueGoodTable>
     </div>
@@ -88,5 +113,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

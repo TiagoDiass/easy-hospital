@@ -81,13 +81,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.modal {
-  transition: background-color 0.5s;
-}
-
-.modal.show {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-</style>

@@ -52,13 +52,13 @@
             v-else-if="props.column.field == 'after'"
             class="media-body text-rigth d-flex justify-content-around after-row"
           >
-            <base-button type="whatsapp">
+            <a class="btn btn-whatsapp">
               <i class="fab fa-whatsapp"></i>
-            </base-button>
+            </a>
 
-            <base-button type="email">
+            <a class="btn btn-email">
               <i class="fas fa-envelope"></i>
-            </base-button>
+            </a>
 
             <base-button type="purple">
               <i class="fas fa-eye"></i>

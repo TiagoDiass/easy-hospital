@@ -52,11 +52,17 @@
             v-else-if="props.column.field == 'after'"
             class="media-body text-rigth d-flex justify-content-around after-row"
           >
-            <a class="btn btn-whatsapp">
+            <a
+              target="_blank"
+              :href="
+                `https://api.whatsapp.com/send?phone=${props.row.phone}&text=Ol%C3%A1%20${firstName(props.row.name)}!`
+              "
+              class="btn btn-whatsapp"
+            >
               <i class="fab fa-whatsapp"></i>
             </a>
 
-            <a class="btn btn-email">
+            <a target="_blank" :href="`mailto:${props.row.email}`" class="btn btn-email">
               <i class="fas fa-envelope"></i>
             </a>
 
@@ -109,6 +115,10 @@ export default {
         title: 'Sucesso',
         text: 'Teste',
       });
+    },
+
+    firstName(fullName) {
+      return fullName.split(' ')[0];
     },
   },
 };

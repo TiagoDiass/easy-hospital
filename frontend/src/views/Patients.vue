@@ -81,6 +81,15 @@
         </template>
       </VueGoodTable>
     </div>
+
+    <!-- Modals -->
+    <BaseModal size="lg" :show.sync="modals.create">
+      <slot name="modal-header">
+        <h5 class="modal-title">
+          Titulo
+        </h5>
+      </slot>
+    </BaseModal>
   </div>
 </template>
 
@@ -89,10 +98,19 @@ import 'vue-good-table/dist/vue-good-table.css';
 import { VueGoodTable } from 'vue-good-table';
 import { mapGetters, mapActions } from 'vuex';
 
+import BaseModal from '../components/theme/BaseModal';
+
 export default {
   components: {
     VueGoodTable,
+    BaseModal,
   },
+
+  data: () => ({
+    modals: {
+      create: false,
+    },
+  }),
 
   mounted() {
     this.loadPatients();
@@ -110,11 +128,7 @@ export default {
     }),
 
     alertar() {
-      this.$swal({
-        icon: 'info',
-        title: 'Sucesso',
-        text: 'Teste',
-      });
+      this.modals.create = true;
     },
 
     firstName(fullName) {

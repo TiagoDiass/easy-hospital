@@ -83,13 +83,34 @@
     </div>
 
     <!-- Modals -->
-    <BaseModal size="lg" :show.sync="modals.create">
-      <slot name="modal-header">
-        <h5 class="modal-title">
-          Titulo
-        </h5>
-      </slot>
-    </BaseModal>
+    <base-modal size="lg" :show.sync="modals.create">
+      <template slot="modal-header">
+        <h4 class="modal-title text-uppercase text-bold">
+          Cadastrar Paciente
+          <i class="fas fa-users"></i>
+        </h4>
+      </template>
+
+      <template slot="modal-body"> </template>
+
+      <template slot="modal-footer">
+        <div class="row d-flex justify-content-around">
+          <div class="col-6">
+            <base-button type="secondary" class="col-12 icon-rotate" @click="modals.create = false">
+              Cancelar
+              <i class="fas fa-times-circle"></i>
+            </base-button>
+          </div>
+
+          <div class="col-6">
+            <base-button type="primary" class="col-12 icon-rotate">
+              Salvar
+              <i class="fas fa-save ml-1"></i>
+            </base-button>
+          </div>
+        </div>
+      </template>
+    </base-modal>
   </div>
 </template>
 
@@ -98,12 +119,9 @@ import 'vue-good-table/dist/vue-good-table.css';
 import { VueGoodTable } from 'vue-good-table';
 import { mapGetters, mapActions } from 'vuex';
 
-import BaseModal from '../components/theme/BaseModal';
-
 export default {
   components: {
     VueGoodTable,
-    BaseModal,
   },
 
   data: () => ({
@@ -137,3 +155,16 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+input {
+  border-radius: 6px;
+  transition: border 0.15s, box-shadow 0.15s;
+  border: 1px solid #184d47;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba($color: #184d47, $alpha: 0.3);
+  }
+}
+</style>

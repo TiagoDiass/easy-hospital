@@ -48,4 +48,14 @@
             background-color: #8949A3;
         }
     }
+
+    &.icon-rotate {
+        i {
+            transition: transform 0.4s ease-in-out;
+        }
+
+        &:hover i {
+            transform: rotate(360deg);
+        }
+    }
 }

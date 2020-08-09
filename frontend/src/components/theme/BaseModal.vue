@@ -9,17 +9,17 @@
       role="dialog"
       :aria-hidden="!show"
     >
-      <div class="modal-dialog" :class="modalSizeClass" role="document">
+      <div class="modal-dialog modal-dialog-centered" :class="modalSizeClass" role="document">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header py-2">
             <slot name="modal-header"></slot>
           </div>
 
-          <div class="modal-body">
+          <div class="modal-body px-4">
             <slot name="modal-body"></slot>
           </div>
 
-          <div class="modal-footer">
+          <div class="modal-footer py-1">
             <slot name="modal-footer"></slot>
           </div>
         </div>
@@ -31,6 +31,8 @@
 <script>
 import { SlideYUpTransition } from 'vue2-transitions';
 export default {
+  name: 'base-modal',
+
   components: {
     SlideYUpTransition,
   },
@@ -81,6 +83,10 @@ export default {
 </script>
 
 <style>
+.modal {
+  transition: background-color 0.5s;
+}
+
 .modal.show {
   background-color: rgba(0, 0, 0, 0.3);
 }

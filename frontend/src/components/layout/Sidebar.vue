@@ -5,9 +5,6 @@
     <div id="nav">
       <a @click="navigateTo('Home')"><i class="fas fa-home"></i> Home</a>
       <a @click="navigateTo('Pacientes')"><i class="fas fa-users"></i> Pacientes</a>
-      <a><i class="fas fa-home"></i> Home</a>
-      <a><i class="fas fa-home"></i> Home</a>
-      <a><i class="fas fa-home"></i> Home</a>
     </div>
   </div>
 </template>

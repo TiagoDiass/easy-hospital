@@ -91,7 +91,9 @@
         </h4>
       </template>
 
-      <template slot="modal-body"> </template>
+      <template slot="modal-body">
+        <BaseInput id="nome" label="Nome" v-model="form.nome" />
+      </template>
 
       <template slot="modal-footer">
         <div class="row d-flex justify-content-around">
@@ -103,7 +105,7 @@
           </div>
 
           <div class="col-6">
-            <base-button type="primary" class="col-12 icon-rotate">
+            <base-button type="primary" class="col-12 icon-rotate" :disabled="form.nome == 'Tiago'">
               Salvar
               <i class="fas fa-save ml-1"></i>
             </base-button>
@@ -118,15 +120,21 @@
 import 'vue-good-table/dist/vue-good-table.css';
 import { VueGoodTable } from 'vue-good-table';
 import { mapGetters, mapActions } from 'vuex';
+import BaseInput from '../components/theme/BaseInput';
 
 export default {
   components: {
     VueGoodTable,
+    BaseInput,
   },
 
   data: () => ({
     modals: {
       create: false,
+    },
+
+    form: {
+      nome: '',
     },
   }),
 
@@ -153,18 +161,11 @@ export default {
       return fullName.split(' ')[0];
     },
   },
+
+  watch: {
+    'form.nome': function(newValue) {
+      console.log(newValue);
+    },
+  },
 };
 </script>
-
-<style lang="scss" scoped>
-input {
-  border-radius: 6px;
-  transition: border 0.15s, box-shadow 0.15s;
-  border: 1px solid #184d47;
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 6px rgba($color: #184d47, $alpha: 0.3);
-  }
-}
-</style>

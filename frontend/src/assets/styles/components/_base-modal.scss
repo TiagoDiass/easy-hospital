@@ -1,7 +1,13 @@
 .modal {
     transition: background-color 0.5s;
-}
 
-.modal.show {
-    background-color: rgba(0, 0, 0, 0.3);
+    .modal-header {
+        h4 {
+            color: $primary;
+        }
+    }
+
+    &.show {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
 }

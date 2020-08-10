@@ -4,6 +4,10 @@
 
     &.disabled {
         cursor: initial;
+
+        &:active {
+            box-shadow: none !important;
+        }
     }
 
     &.btn-secondary {

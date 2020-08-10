@@ -8,6 +8,21 @@
     </slot>
 
     <input
+      v-if="mask"
+      :id="id"
+      :value="value"
+      v-on="listeners"
+      v-mask="mask"
+      :masked="masked"
+      :type="type"
+      class="form-control"
+      :class="inputClasses"
+      :placeholder="placeholder"
+      :autocomplete="autocomplete ? 'on' : 'off'"
+    />
+
+    <input
+      v-else
       :id="id"
       :type="type"
       class="form-control"
@@ -21,7 +36,12 @@
 </template>
 
 <script>
+import { mask, masked } from 'vue-the-mask';
+
 export default {
+  directives: { mask, masked },
+  name: 'base-input',
+
   inheritAttrs: false,
 
   data: () => ({
@@ -86,6 +106,17 @@ export default {
       default: false,
       description: 'Is this input required? If so we will add a * after the label',
     },
+
+    mask: {
+      type: [String, Array],
+      description: 'Mask that the input will have',
+    },
+
+    masked: {
+      type: Boolean,
+      default: false,
+      description: 'Boolean that will say if the value of the input will be saved masked or not',
+    },
   },
 
   computed: {
@@ -100,7 +131,10 @@ export default {
 
   methods: {
     updateValue(event) {
-      let value = event.target.value;
+      // let value = event.target.value;
+      // this.$emit('input', value);
+      let value =
+        event.target.value && !this.masked && this.mask ? event.target.value.replace(/\D/g, '') : event.target.value;
       this.$emit('input', value);
     },
 

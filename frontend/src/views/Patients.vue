@@ -92,7 +92,19 @@
       </template>
 
       <template slot="modal-body">
-        <BaseInput id="nome" label="Nome" v-model="form.nome" />
+        <div class="row">
+          <base-input id="nome" label="Nome" v-model="form.nome" class="col-6" />
+          <base-input id="cpf" label="CPF" class="col-6" v-model="form.cpf" :mask="'###.###.###-##'" :masked="true" />
+          <base-input id="cep" label="CEP" class="col-4" v-model="form.cep" :mask="'#####-###'" />
+          <base-input id="email" label="E-mail" class="col-8" v-model="form.email" />
+          <base-input
+            id="phone"
+            label="Telefone"
+            class="col-lg-6"
+            v-model="form.phone"
+            :mask="['+55 (##) # ####-####', '+55 (##) ####-####']"
+          />
+        </div>
       </template>
 
       <template slot="modal-footer">
@@ -120,12 +132,10 @@
 import 'vue-good-table/dist/vue-good-table.css';
 import { VueGoodTable } from 'vue-good-table';
 import { mapGetters, mapActions } from 'vuex';
-import BaseInput from '../components/theme/BaseInput';
 
 export default {
   components: {
     VueGoodTable,
-    BaseInput,
   },
 
   data: () => ({
@@ -135,6 +145,10 @@ export default {
 
     form: {
       nome: '',
+      cpf: '',
+      cep: '',
+      email: '',
+      phone: '',
     },
   }),
 
@@ -164,6 +178,14 @@ export default {
 
   watch: {
     'form.nome': function(newValue) {
+      console.log(newValue);
+    },
+
+    'form.cpf': function(newValue) {
+      console.log(newValue);
+    },
+
+    'form.phone': function(newValue) {
       console.log(newValue);
     },
   },

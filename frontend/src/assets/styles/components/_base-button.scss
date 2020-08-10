@@ -5,6 +5,10 @@
     &.disabled {
         cursor: initial;
 
+        &:focus {
+            box-shadow: none !important;
+        }
+
         &:active {
             box-shadow: none !important;
         }

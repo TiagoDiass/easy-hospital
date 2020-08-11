@@ -80,9 +80,17 @@ class PatientController {
       blood_type,
     };
 
-    await knex('patients').where({ id }).update(patientData);
+    await knex('patients')
+      .where({
+        id,
+      })
+      .update(patientData);
 
-    const [updatedPatient] = await knex('patients').where({ id }).select('*');
+    const [updatedPatient] = await knex('patients')
+      .where({
+        id,
+      })
+      .select('*');
 
     return res.json({
       status: 200,
@@ -98,7 +106,7 @@ class PatientController {
         id,
       }))
     ) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'Não encontramos nenhum usuário com o ID informado',
       });

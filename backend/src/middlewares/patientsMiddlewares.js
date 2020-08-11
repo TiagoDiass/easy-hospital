@@ -21,7 +21,7 @@ class PatientsMiddlewares {
     const { email, phone, cpf, rg } = req.body;
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'A validação do formulário falhou, revise o preenchimento dos campos',
       });
@@ -33,7 +33,7 @@ class PatientsMiddlewares {
         email,
       })
     ) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'Já existe um usuário com este e-mail',
       });
@@ -45,7 +45,7 @@ class PatientsMiddlewares {
         phone,
       })
     ) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'Já existe um usuário com este número de telefone',
       });
@@ -57,7 +57,7 @@ class PatientsMiddlewares {
         cpf,
       })
     ) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'Já existe um usuário com este CPF',
       });
@@ -69,7 +69,7 @@ class PatientsMiddlewares {
         rg,
       })
     ) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'Já existe um usuário com este RG',
       });
@@ -88,14 +88,14 @@ class PatientsMiddlewares {
         id,
       }))
     ) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'Não encontramos nenhum usuário com o ID informado',
       });
     }
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'A validação do formulário falhou, revise o preenchimento dos campos',
       });
@@ -123,28 +123,28 @@ class PatientsMiddlewares {
     };
 
     if (checkings.byEmail.exists && checkings.byEmail.id !== patient.id) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'Já existe um usuário com esse e-mail',
       });
     }
 
     if (checkings.byCpf.exists && checkings.byCpf.id !== patient.id) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'Já existe um usuário com esse CPF',
       });
     }
 
     if (checkings.byRg.exists && checkings.byRg.id !== patient.id) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'Já existe um usuário com esse RG',
       });
     }
 
     if (checkings.byPhone.exists && checkings.byPhone.id !== patient.id) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         erro: 'Já existe um usuário com esse número de telefone',
       });

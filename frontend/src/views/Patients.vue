@@ -55,7 +55,9 @@
             <a
               target="_blank"
               :href="
-                `https://api.whatsapp.com/send?phone=${props.row.phone}&text=Ol%C3%A1%20${firstName(props.row.name)}!`
+                `https://api.whatsapp.com/send?phone=${props.row.phone}&text=Ol%C3%A1%20${getFirstName(
+                  props.row.name
+                )}!`
               "
               class="btn btn-whatsapp"
             >
@@ -66,7 +68,7 @@
               <i class="fas fa-envelope"></i>
             </a>
 
-            <base-button type="purple">
+            <base-button type="purple" @click="openViewModal(props.row)">
               <i class="fas fa-eye"></i>
             </base-button>
 
@@ -82,7 +84,7 @@
       </VueGoodTable>
     </div>
 
-    <!-- Modals -->
+    <!-- Create Modal -->
     <base-modal size="lg" :show.sync="modals.create">
       <template slot="modal-header">
         <h4 class="modal-title text-uppercase text-bold">
@@ -200,6 +202,107 @@
         </div>
       </template>
     </base-modal>
+
+    <!-- View modal -->
+    <base-modal size="lg" :show.sync="modals.view">
+      <template slot="modal-header">
+        <h4 class="modal-title text-uppercase text-bold">
+          Cadastrar Paciente
+          <i class="fas fa-users"></i>
+        </h4>
+      </template>
+
+      <template slot="modal-body">
+        <div class="row">
+          <!-- Name -->
+          <base-input id="nome-view" label="Nome" v-model="form.name" class="col-lg-6" readonly />
+
+          <!-- E-mail -->
+          <base-input id="email-view" label="E-mail" class="col-lg-6" v-model="form.email" readonly />
+
+          <!-- Phone -->
+          <base-input
+            id="phone-view"
+            label="Telefone"
+            class="col-lg-6"
+            v-model="form.phone"
+            :mask="['+55 (##) # ####-####', '+55 (##) ####-####']"
+            readonly
+          />
+
+          <!-- CPF -->
+          <base-input
+            id="cpf-view"
+            label="CPF"
+            class="col-lg-6"
+            v-model="form.cpf"
+            :mask="'###.###.###-##'"
+            placeholder="000.000.000-00"
+            readonly
+          />
+
+          <!-- RG -->
+          <base-input
+            id="rg-view"
+            label="RG"
+            class="col-lg-6"
+            v-model="form.rg"
+            :mask="'##.###.###-#'"
+            placeholder="00.000.000-0"
+            readonly
+          />
+
+          <!-- Birth -->
+          <base-input
+            type="date"
+            id="birth-view"
+            label="Data de Nascimento"
+            class="col-lg-6"
+            v-model="form.birth"
+            readonly
+          />
+
+          <!-- Gender -->
+          <base-input id="gender-view" label="Sexo" class="col-lg-6" :value="getGender()" readonly />
+
+          <!-- Weight -->
+          <base-input
+            type="number"
+            id="weight-view"
+            label="Peso (Kg)"
+            class="col-lg-6"
+            v-model.number="form.weight"
+            placeholder="Ex: 55,4"
+            readonly
+          />
+
+          <!-- Height -->
+          <base-input
+            type="number"
+            id="height-view"
+            label="Altura (cm)"
+            class="col-lg-6"
+            v-model="form.height"
+            placeholder="Ex: 175"
+            readonly
+          />
+
+          <!-- Blood Type -->
+          <base-input id="bloodType-view" label="Tipo Sanguíneo" class="col-lg-6" :value="form.blood_type" readonly />
+        </div>
+      </template>
+
+      <template slot="modal-footer">
+        <div class="row d-flex justify-content-around">
+          <div class="col-12">
+            <base-button type="primary" class="col-12 icon-rotate" @click="modals.view = false">
+              Fechar
+              <i class="fas fa-times-circle"></i>
+            </base-button>
+          </div>
+        </div>
+      </template>
+    </base-modal>
   </div>
 </template>
 
@@ -216,6 +319,7 @@ export default {
   data: () => ({
     modals: {
       create: false,
+      view: false,
     },
 
     form: {
@@ -316,6 +420,11 @@ export default {
       this.modals.create = true;
     },
 
+    openViewModal(patientData) {
+      this.setForm(patientData);
+      this.modals.view = true;
+    },
+
     closeModal(modalName) {
       this.$swal
         .fire({
@@ -385,11 +494,27 @@ export default {
         });
     },
 
-    firstName(fullName) {
+    getFirstName(fullName) {
       return fullName.split(' ')[0];
     },
-  },
 
-  watch: {},
+    getGender() {
+      let genderDesc;
+
+      switch (this.form.gender) {
+        case 'M':
+          genderDesc = 'Masculino';
+          break;
+        case 'F':
+          genderDesc = 'Feminino';
+          break;
+        case 'N/A':
+          genderDesc = 'N/A';
+          break;
+      }
+
+      return genderDesc;
+    },
+  },
 };
 </script>

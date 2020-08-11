@@ -9,6 +9,7 @@
 
     <input
       v-if="mask"
+      v-bind="$attrs"
       :id="id"
       :value="value"
       v-on="listeners"
@@ -23,6 +24,7 @@
 
     <input
       v-else
+      v-bind="$attrs"
       :id="id"
       :type="type"
       class="form-control"

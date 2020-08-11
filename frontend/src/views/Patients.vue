@@ -157,6 +157,7 @@
 
           <!-- Height -->
           <base-input
+            type="number"
             id="height"
             label="Altura (cm)"
             class="col-lg-6"
@@ -280,6 +281,7 @@ export default {
   methods: {
     ...mapActions({
       loadPatients: 'patients/fetchPatients',
+      newPatient: 'patients/newPatient',
     }),
 
     setForm({
@@ -330,11 +332,20 @@ export default {
         });
     },
 
-    savePatient() {
+    async savePatient() {
+      const response = await this.newPatient(this.form);
+
       this.$swal.fire({
-        icon: 'success',
-        title: 'Sucesso',
-        text: 'O paciente foi registrado com sucesso',
+        icon: response.status == 201 ? 'success' : 'error',
+        title: response.status == 201 ? 'Sucesso' : 'Ops...',
+        text: response.message,
+        onClose:
+          response.status == 201
+            ? () => {
+                this.loadPatients();
+                this.modals.create = false;
+              }
+            : () => {},
       });
     },
 

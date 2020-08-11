@@ -21,6 +21,35 @@ const actions = {
     const response = await Vue.prototype.$httpClient.get('/patients');
     commit('setPatients', response.data);
   },
+
+  async newPatient(_, { name, email, phone, cpf, rg, birth, gender, weight, height, blood_type }) {
+    console.log({ name, email, phone, cpf, rg, birth, gender, weight, height, blood_type });
+
+    const response = await Vue.prototype.$httpClient.post('/patients/new', {
+      name,
+      email,
+      phone: `+55${phone}`,
+      cpf,
+      rg,
+      birth,
+      gender,
+      weight,
+      height,
+      blood_type,
+    });
+
+    if (response.data.status == 201) {
+      return {
+        status: 201,
+        message: 'Paciente cadastrado com sucesso',
+      };
+    } else {
+      return {
+        status: response.data.status,
+        message: response.data.erro,
+      };
+    }
+  },
 };
 
 // Mutations

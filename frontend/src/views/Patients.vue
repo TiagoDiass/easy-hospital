@@ -74,7 +74,7 @@
               <i class="fas fa-edit"></i>
             </base-button>
 
-            <base-button type="danger">
+            <base-button type="danger" @click="deletePatient(props.row.id)">
               <i class="fas fa-trash-alt"></i>
             </base-button>
           </div>
@@ -282,6 +282,7 @@ export default {
     ...mapActions({
       loadPatients: 'patients/fetchPatients',
       newPatient: 'patients/newPatient',
+      deletePatientAction: 'patients/deletePatient',
     }),
 
     setForm({
@@ -347,6 +348,41 @@ export default {
               }
             : () => {},
       });
+    },
+
+    async deletePatient(id) {
+      this.$swal
+        .fire({
+          icon: 'warning',
+          title: 'Tem certeza?',
+          text: 'Após deletar um paciente, os dados dele não poderão ser recuperados',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          cancelButtonColor: 'var(--danger)',
+        })
+        .then(async result => {
+          if (result.value) {
+            const response = await this.deletePatientAction(id);
+
+            this.$swal.fire({
+              icon: response.status == 200 ? 'success' : 'error',
+              title: response.status == 200 ? 'Sucesso' : 'Ops...',
+              text: response.message,
+              onClose:
+                response.status == 200
+                  ? () => {
+                      this.loadPatients();
+                    }
+                  : () => {},
+            });
+          } else {
+            this.$swal.fire({
+              icon: 'info',
+              title: 'Tudo bem',
+              text: 'O paciente não foi excluído',
+            });
+          }
+        });
     },
 
     firstName(fullName) {

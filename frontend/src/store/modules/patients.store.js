@@ -23,8 +23,6 @@ const actions = {
   },
 
   async newPatient(_, { name, email, phone, cpf, rg, birth, gender, weight, height, blood_type }) {
-    console.log({ name, email, phone, cpf, rg, birth, gender, weight, height, blood_type });
-
     const response = await Vue.prototype.$httpClient.post('/patients/new', {
       name,
       email,
@@ -49,6 +47,16 @@ const actions = {
         message: response.data.erro,
       };
     }
+  },
+
+  async deletePatient(_, id) {
+    const url = `/patients/${id}`;
+    const response = await Vue.prototype.$httpClient.delete(url);
+
+    return {
+      status: response.data.status,
+      message: response.data.status == 200 ? response.data.mensagem : response.data.erro,
+    };
   },
 };
 

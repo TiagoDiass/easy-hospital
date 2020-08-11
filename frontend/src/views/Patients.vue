@@ -9,8 +9,8 @@
     </div>
 
     <div class="view-content">
-      <base-button @click="alertar" class="w-100" type="primary">
-        Clica em mim
+      <base-button @click="abrirModalCriacao" class="w-100" type="primary">
+        Cadastrar Paciente
       </base-button>
 
       <VueGoodTable
@@ -93,17 +93,26 @@
 
       <template slot="modal-body">
         <div class="row">
-          <base-input id="nome" label="Nome" v-model="form.nome" class="col-6" />
-          <base-input id="cpf" label="CPF" class="col-6" v-model="form.cpf" :mask="'###.###.###-##'" :masked="true" />
-          <base-input id="cep" label="CEP" class="col-4" v-model="form.cep" :mask="'#####-###'" />
-          <base-input id="email" label="E-mail" class="col-8" v-model="form.email" />
+          <base-input id="nome" label="Nome" v-model="form.name" class="col-lg-6" />
+          <base-input id="email" label="E-mail" class="col-lg-6" v-model="form.email" />
           <base-input
             id="phone"
             label="Telefone"
             class="col-lg-6"
             v-model="form.phone"
-            :mask="['+55 (##) # ####-####', '+55 (##) ####-####']"
+            :mask="['(##) # ####-####', '(##) ####-####']"
           />
+          <base-input id="cpf" label="CPF" class="col-lg-6" v-model="form.cpf" :mask="'###.###.###-##'" />
+          <base-input id="rg" label="RG" class="col-lg-6" v-model="form.rg" :mask="'##.###.###-#'" />
+          <base-input type="date" id="birth" label="Data de Nascimento" class="col-lg-6" v-model="form.birth" />
+          <base-input id="birth" label="Data de Nascimento" class="col-lg-6" v-model="form.birth" />
+          <base-select
+            id="gender"
+            label="Sexo"
+            class="col-lg-6"
+            v-model="form.gender"
+            :options="genderOptions"
+          ></base-select>
         </div>
       </template>
 
@@ -144,11 +153,16 @@ export default {
     },
 
     form: {
-      nome: '',
-      cpf: '',
-      cep: '',
+      name: '',
       email: '',
       phone: '',
+      cpf: '',
+      rg: '',
+      birth: '',
+      gender: 'N/A',
+      weight: '',
+      height: '',
+      blood_type: '',
     },
   }),
 
@@ -160,6 +174,23 @@ export default {
     ...mapGetters({
       patients: 'patients/getPatients',
     }),
+
+    genderOptions() {
+      return [
+        {
+          value: 'N/A',
+          desc: 'Não informado',
+        },
+        {
+          value: 'M',
+          desc: 'Masculino',
+        },
+        {
+          value: 'F',
+          desc: 'Feminino',
+        },
+      ];
+    },
   },
 
   methods: {
@@ -167,7 +198,7 @@ export default {
       loadPatients: 'patients/fetchPatients',
     }),
 
-    alertar() {
+    abrirModalCriacao() {
       this.modals.create = true;
     },
 
@@ -176,18 +207,6 @@ export default {
     },
   },
 
-  watch: {
-    'form.nome': function(newValue) {
-      console.log(newValue);
-    },
-
-    'form.cpf': function(newValue) {
-      console.log(newValue);
-    },
-
-    'form.phone': function(newValue) {
-      console.log(newValue);
-    },
-  },
+  watch: {},
 };
 </script>

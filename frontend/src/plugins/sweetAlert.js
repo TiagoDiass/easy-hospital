@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 
 Vue.use({
   install(Vue) {

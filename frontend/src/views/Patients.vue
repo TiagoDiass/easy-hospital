@@ -9,7 +9,7 @@
     </div>
 
     <div class="view-content">
-      <base-button @click="abrirModalCriacao" class="w-100" type="primary">
+      <base-button @click="openCreateModal" class="w-100" type="primary">
         Cadastrar Paciente
       </base-button>
 
@@ -93,40 +93,105 @@
 
       <template slot="modal-body">
         <div class="row">
-          <base-input id="nome" label="Nome" v-model="form.name" class="col-lg-6" />
-          <base-input id="email" label="E-mail" class="col-lg-6" v-model="form.email" />
+          <!-- Name -->
+          <base-input id="nome" label="Nome" v-model="form.name" class="col-lg-6" :required="true" />
+
+          <!-- E-mail -->
+          <base-input id="email" label="E-mail" class="col-lg-6" v-model="form.email" :required="true" />
+
+          <!-- Phone -->
           <base-input
             id="phone"
             label="Telefone"
             class="col-lg-6"
             v-model="form.phone"
             :mask="['(##) # ####-####', '(##) ####-####']"
+            :required="true"
           />
-          <base-input id="cpf" label="CPF" class="col-lg-6" v-model="form.cpf" :mask="'###.###.###-##'" />
-          <base-input id="rg" label="RG" class="col-lg-6" v-model="form.rg" :mask="'##.###.###-#'" />
-          <base-input type="date" id="birth" label="Data de Nascimento" class="col-lg-6" v-model="form.birth" />
-          <base-input id="birth" label="Data de Nascimento" class="col-lg-6" v-model="form.birth" />
-          <base-select
-            id="gender"
-            label="Sexo"
+
+          <!-- CPF -->
+          <base-input
+            id="cpf"
+            label="CPF"
             class="col-lg-6"
-            v-model="form.gender"
-            :options="genderOptions"
-          ></base-select>
+            v-model="form.cpf"
+            :mask="'###.###.###-##'"
+            placeholder="000.000.000-00"
+            :required="true"
+          />
+
+          <!-- RG -->
+          <base-input
+            id="rg"
+            label="RG"
+            class="col-lg-6"
+            v-model="form.rg"
+            :mask="'##.###.###-#'"
+            placeholder="00.000.000-0"
+            :required="true"
+          />
+
+          <!-- Birth -->
+          <base-input
+            type="date"
+            id="birth"
+            label="Data de Nascimento"
+            class="col-lg-6"
+            v-model="form.birth"
+            :required="true"
+          />
+
+          <!-- Gender -->
+          <base-select id="gender" label="Sexo" class="col-lg-6" v-model="form.gender" :options="genderOptions" />
+
+          <!-- Weight -->
+          <base-input
+            type="number"
+            id="weight"
+            label="Peso (Kg)"
+            class="col-lg-6"
+            v-model.number="form.weight"
+            placeholder="Ex: 55,4"
+            :required="true"
+          />
+
+          <!-- Height -->
+          <base-input
+            id="height"
+            label="Altura (cm)"
+            class="col-lg-6"
+            v-model="form.height"
+            placeholder="Ex: 175"
+            :required="true"
+          />
+
+          <!-- Blood Type -->
+          <base-select
+            id="bloodType"
+            label="Tipo Sanguíneo"
+            class="col-lg-6"
+            v-model="form.blood_type"
+            :options="bloodTypeOptions"
+          />
         </div>
       </template>
 
       <template slot="modal-footer">
         <div class="row d-flex justify-content-around">
           <div class="col-6">
-            <base-button type="secondary" class="col-12 icon-rotate" @click="modals.create = false">
+            <base-button type="secondary" class="col-12 icon-rotate" @click="closeModal('create')">
               Cancelar
               <i class="fas fa-times-circle"></i>
             </base-button>
           </div>
 
           <div class="col-6">
-            <base-button type="primary" class="col-12 icon-rotate" :disabled="form.nome == 'Tiago'">
+            <base-button
+              @click="savePatient"
+              type="primary"
+              class="col-12 icon-rotate"
+              :disabled="form.nome == 'Tiago'"
+            >
               Salvar
               <i class="fas fa-save ml-1"></i>
             </base-button>
@@ -162,7 +227,7 @@ export default {
       gender: 'N/A',
       weight: '',
       height: '',
-      blood_type: '',
+      blood_type: 'N/A',
     },
   }),
 
@@ -191,6 +256,25 @@ export default {
         },
       ];
     },
+
+    bloodTypeOptions() {
+      const newOption = (value, desc) => ({
+        value,
+        desc,
+      });
+
+      return [
+        newOption('N/A', 'Não informado'),
+        newOption('A+', 'A+'),
+        newOption('A-', 'A-'),
+        newOption('B+', 'B+'),
+        newOption('B-', 'B-'),
+        newOption('AB+', 'AB+'),
+        newOption('AB-', 'AB-'),
+        newOption('O+', 'O+'),
+        newOption('O-', 'O-'),
+      ];
+    },
   },
 
   methods: {
@@ -198,8 +282,60 @@ export default {
       loadPatients: 'patients/fetchPatients',
     }),
 
-    abrirModalCriacao() {
+    setForm({
+      name = '',
+      email = '',
+      phone = '',
+      cpf = '',
+      rg = '',
+      birth = '',
+      gender = 'N/A',
+      weight = '',
+      height = '',
+      blood_type = 'N/A',
+    }) {
+      this.form = {
+        name,
+        email,
+        phone,
+        cpf,
+        rg,
+        birth,
+        gender,
+        weight,
+        height,
+        blood_type,
+      };
+    },
+
+    openCreateModal() {
+      this.setForm({});
       this.modals.create = true;
+    },
+
+    closeModal(modalName) {
+      this.$swal
+        .fire({
+          icon: 'warning',
+          title: 'Tem certeza?',
+          text: 'Após fechar o formulário, todos os dados nele contido serão perdidos',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          cancelButtonColor: 'var(--danger)',
+        })
+        .then(result => {
+          if (result.value) {
+            this.modals[modalName] = false;
+          }
+        });
+    },
+
+    savePatient() {
+      this.$swal.fire({
+        icon: 'success',
+        title: 'Sucesso',
+        text: 'O paciente foi registrado com sucesso',
+      });
     },
 
     firstName(fullName) {

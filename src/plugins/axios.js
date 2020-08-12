@@ -4,7 +4,7 @@ import axios from 'axios';
 Vue.use({
   install(Vue) {
     Vue.prototype.$httpClient = axios.create({
-      baseURL: 'http://localhost:3333',
+      baseURL: 'https://easy-hospital-api.herokuapp.com',
     });
   },
 });

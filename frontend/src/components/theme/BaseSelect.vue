@@ -10,7 +10,13 @@
         {{ defaultOption }}
       </option>
 
-      <option style="color: #000;" v-for="(option, index) in options" :key="index" :value="option.value">
+      <option
+        style="color: #000;"
+        v-for="(option, index) in selectOptions"
+        :key="index"
+        :value="option.value"
+        :selected="value == option.value"
+      >
         {{ option.desc }}
       </option>
     </select>
@@ -54,6 +60,7 @@ export default {
 
     defaultOption: {
       type: String,
+      default: '',
       required: false,
       description: 'The default option of the select input',
     },
@@ -81,6 +88,14 @@ export default {
         input: this.updateValue,
         focus: this.onFocus,
       };
+    },
+
+    selectOptions() {
+      if (this.defaultOption) {
+        const options = this.options.filter(option => option.value !== this.defaultOptionObject.value);
+        return options;
+      }
+      return this.options;
     },
   },
 

@@ -38,6 +38,21 @@
             field: 'after',
           },
         ]"
+        :pagination-options="{
+          enabled: true,
+          mode: 'records',
+          perPage: 8,
+          position: 'bottom',
+          perPageDropdown: [4, 8, 16],
+          dropdownAllowAll: false,
+          setCurrentPage: 1,
+          nextLabel: 'Próxima',
+          prevLabel: 'Anterior',
+          rowsPerPageLabel: 'Registros por página',
+          ofLabel: 'de',
+          pageLabel: 'page', // for 'pages' mode
+          allLabel: 'Todos',
+        }"
       >
         <template slot="table-row" slot-scope="props">
           <span v-if="props.column.field == 'cpf-slot'">
@@ -59,25 +74,25 @@
                   props.row.name
                 )}!`
               "
-              class="btn btn-whatsapp"
+              class="btn btn-whatsapp mr-1"
             >
               <i class="fab fa-whatsapp"></i>
             </a>
 
-            <a target="_blank" :href="`mailto:${props.row.email}`" class="btn btn-email">
+            <a target="_blank" :href="`mailto:${props.row.email}`" class="btn btn-email mr-1">
               <i class="fas fa-envelope"></i>
             </a>
 
-            <base-button type="purple" @click="openViewModal(props.row)">
+            <base-button type="purple" @click="openViewModal(props.row)" class="mr-1">
               <i class="fas fa-eye"></i>
             </base-button>
 
-            <base-button type="warning">
+            <base-button type="warning" class="mr-1" @click="openEditModal(props.row)">
               <i class="fas fa-edit"></i>
             </base-button>
 
             <base-button type="danger" @click="deletePatient(props.row.id)">
-              <i class="fas fa-trash-alt"></i>
+              <i class="fas fa-trash-alt ml-1"></i>
             </base-button>
           </div>
         </template>
@@ -181,20 +196,15 @@
 
       <template slot="modal-footer">
         <div class="row d-flex justify-content-around">
-          <div class="col-6">
+          <div class="col-lg-6 mb-1">
             <base-button type="secondary" class="col-12 icon-rotate" @click="closeModal('create')">
               Cancelar
               <i class="fas fa-times-circle"></i>
             </base-button>
           </div>
 
-          <div class="col-6">
-            <base-button
-              @click="savePatient"
-              type="primary"
-              class="col-12 icon-rotate"
-              :disabled="form.nome == 'Tiago'"
-            >
+          <div class="col-lg-6 mb-1">
+            <base-button @click="savePatient" type="primary" class="col-12 icon-rotate">
               Salvar
               <i class="fas fa-save ml-1"></i>
             </base-button>
@@ -207,7 +217,7 @@
     <base-modal size="lg" :show.sync="modals.view">
       <template slot="modal-header">
         <h4 class="modal-title text-uppercase text-bold">
-          Cadastrar Paciente
+          Visualizar Paciente
           <i class="fas fa-users"></i>
         </h4>
       </template>
@@ -215,17 +225,17 @@
       <template slot="modal-body">
         <div class="row">
           <!-- Name -->
-          <base-input id="nome-view" label="Nome" v-model="form.name" class="col-lg-6" readonly />
+          <base-input id="nome-view" label="Nome" :value="form.name" class="col-lg-6" readonly />
 
           <!-- E-mail -->
-          <base-input id="email-view" label="E-mail" class="col-lg-6" v-model="form.email" readonly />
+          <base-input id="email-view" label="E-mail" class="col-lg-6" :value="form.email" readonly />
 
           <!-- Phone -->
           <base-input
             id="phone-view"
             label="Telefone"
             class="col-lg-6"
-            v-model="form.phone"
+            :value="form.phone"
             :mask="['+55 (##) # ####-####', '+55 (##) ####-####']"
             readonly
           />
@@ -235,7 +245,7 @@
             id="cpf-view"
             label="CPF"
             class="col-lg-6"
-            v-model="form.cpf"
+            :value="form.cpf"
             :mask="'###.###.###-##'"
             placeholder="000.000.000-00"
             readonly
@@ -246,7 +256,7 @@
             id="rg-view"
             label="RG"
             class="col-lg-6"
-            v-model="form.rg"
+            :value="form.rg"
             :mask="'##.###.###-#'"
             placeholder="00.000.000-0"
             readonly
@@ -258,7 +268,7 @@
             id="birth-view"
             label="Data de Nascimento"
             class="col-lg-6"
-            v-model="form.birth"
+            :value="form.birth"
             readonly
           />
 
@@ -271,7 +281,7 @@
             id="weight-view"
             label="Peso (Kg)"
             class="col-lg-6"
-            v-model.number="form.weight"
+            :value="form.weight"
             placeholder="Ex: 55,4"
             readonly
           />
@@ -282,7 +292,7 @@
             id="height-view"
             label="Altura (cm)"
             class="col-lg-6"
-            v-model="form.height"
+            :value="form.height"
             placeholder="Ex: 175"
             readonly
           />
@@ -298,6 +308,120 @@
             <base-button type="primary" class="col-12 icon-rotate" @click="modals.view = false">
               Fechar
               <i class="fas fa-times-circle"></i>
+            </base-button>
+          </div>
+        </div>
+      </template>
+    </base-modal>
+
+    <!-- Edit Modal -->
+    <base-modal size="lg" :show.sync="modals.edit">
+      <template slot="modal-header">
+        <h4 class="modal-title text-uppercase text-bold">
+          Editar Paciente
+          <i class="fas fa-users"></i>
+        </h4>
+      </template>
+
+      <template slot="modal-body">
+        <div class="row">
+          <!-- Name -->
+          <base-input id="nome-edit" label="Nome" v-model="form.name" class="col-lg-6" :required="true" />
+
+          <!-- E-mail -->
+          <base-input id="email-edit" label="E-mail" class="col-lg-6" v-model="form.email" :required="true" />
+
+          <!-- Phone -->
+          <base-input
+            id="phone-edit"
+            label="Telefone"
+            class="col-lg-6"
+            v-model="form.phone"
+            :mask="['(##) # ####-####', '(##) ####-####']"
+            :required="true"
+          />
+
+          <!-- CPF -->
+          <base-input
+            id="cpf-edit"
+            label="CPF"
+            class="col-lg-6"
+            v-model="form.cpf"
+            :mask="'###.###.###-##'"
+            placeholder="000.000.000-00"
+            :required="true"
+          />
+
+          <!-- RG -->
+          <base-input
+            id="rg-edit"
+            label="RG"
+            class="col-lg-6"
+            v-model="form.rg"
+            :mask="'##.###.###-#'"
+            placeholder="00.000.000-0"
+            :required="true"
+          />
+
+          <!-- Birth -->
+          <base-input
+            type="date"
+            id="birth-edit"
+            label="Data de Nascimento"
+            class="col-lg-6"
+            v-model="form.birth"
+            :required="true"
+          />
+
+          <!-- Gender -->
+          <base-select id="gender-edit" label="Sexo" class="col-lg-6" v-model="form.gender" :options="genderOptions" />
+
+          <!-- Weight -->
+          <base-input
+            type="number"
+            id="weight-edit"
+            label="Peso (Kg)"
+            class="col-lg-6"
+            v-model.number="form.weight"
+            placeholder="Ex: 55,4"
+            :required="true"
+          />
+
+          <!-- Height -->
+          <base-input
+            type="number"
+            id="height-edit"
+            label="Altura (cm)"
+            class="col-lg-6"
+            v-model="form.height"
+            placeholder="Ex: 175"
+            :required="true"
+          />
+
+          <!-- Blood Type -->
+          <base-select
+            id="bloodType-edit"
+            label="Tipo Sanguíneo"
+            class="col-lg-6"
+            v-model="form.blood_type"
+            :options="bloodTypeOptions"
+          />
+        </div>
+      </template>
+
+      <template slot="modal-footer">
+        <div class="row d-flex justify-content-around">
+          <div class="col-lg-6 mb-1">
+            <base-button type="secondary" class="col-12 icon-rotate" @click="closeModal('edit')">
+              Cancelar
+              <i class="fas fa-times-circle"></i>
+            </base-button>
+          </div>
+
+          <div class="col-lg-6 mb-1">
+            <base-button @click="editPatient" type="primary" class="col-12 icon-rotate">
+              Atualizar
+              <i class="fas fa-sync"></i>
             </base-button>
           </div>
         </div>
@@ -320,9 +444,11 @@ export default {
     modals: {
       create: false,
       view: false,
+      edit: false,
     },
 
     form: {
+      id: '',
       name: '',
       email: '',
       phone: '',
@@ -386,10 +512,12 @@ export default {
     ...mapActions({
       loadPatients: 'patients/fetchPatients',
       newPatient: 'patients/newPatient',
+      updatePatient: 'patients/updatePatient',
       deletePatientAction: 'patients/deletePatient',
     }),
 
     setForm({
+      id = '',
       name = '',
       email = '',
       phone = '',
@@ -402,6 +530,7 @@ export default {
       blood_type = 'N/A',
     }) {
       this.form = {
+        id,
         name,
         email,
         phone,
@@ -423,6 +552,15 @@ export default {
     openViewModal(patientData) {
       this.setForm(patientData);
       this.modals.view = true;
+    },
+
+    openEditModal(patientData) {
+      this.setForm({
+        ...patientData,
+        phone: patientData.phone.replace('+55', ''),
+      });
+
+      this.modals.edit = true;
     },
 
     closeModal(modalName) {
@@ -454,6 +592,23 @@ export default {
             ? () => {
                 this.loadPatients();
                 this.modals.create = false;
+              }
+            : () => {},
+      });
+    },
+
+    async editPatient() {
+      const response = await this.updatePatient(this.form);
+
+      this.$swal.fire({
+        icon: response.status == 200 ? 'success' : 'error',
+        title: response.status == 200 ? 'Sucesso' : 'Ops...',
+        text: response.message,
+        onClose:
+          response.status == 200
+            ? () => {
+                this.modals.edit = false;
+                this.loadPatients();
               }
             : () => {},
       });

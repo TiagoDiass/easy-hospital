@@ -58,6 +58,27 @@ const actions = {
       message: response.data.status == 200 ? response.data.mensagem : response.data.erro,
     };
   },
+
+  async updatePatient(_, { id, name, email, phone, cpf, rg, birth, gender, weight, height, blood_type }) {
+    const url = `/patients/${id}`;
+    const response = await Vue.prototype.$httpClient.put(url, {
+      name,
+      email,
+      phone: `+55${phone}`,
+      cpf,
+      rg,
+      birth,
+      gender,
+      weight,
+      height,
+      blood_type,
+    });
+
+    return {
+      status: response.data.status,
+      message: response.data.status == 200 ? 'Os dados do paciente foram atualizados com sucesso' : response.data.erro,
+    };
+  },
 };
 
 // Mutations

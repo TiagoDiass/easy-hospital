@@ -111,10 +111,24 @@
       <template slot="modal-body">
         <div class="row">
           <!-- Name -->
-          <base-input id="nome" label="Nome" v-model="form.name" class="col-lg-6" :required="true" />
+          <base-input
+            id="nome"
+            label="Nome"
+            v-model="form.name"
+            class="col-lg-6"
+            :required="true"
+            :valid="nameValidation"
+          />
 
           <!-- E-mail -->
-          <base-input id="email" label="E-mail" class="col-lg-6" v-model="form.email" :required="true" />
+          <base-input
+            id="email"
+            label="E-mail"
+            class="col-lg-6"
+            v-model="form.email"
+            :required="true"
+            :valid="emailValidation"
+          />
 
           <!-- Phone -->
           <base-input
@@ -124,6 +138,7 @@
             v-model="form.phone"
             :mask="['(##) # ####-####', '(##) ####-####']"
             :required="true"
+            :valid="phoneValidation"
           />
 
           <!-- CPF -->
@@ -135,6 +150,7 @@
             :mask="'###.###.###-##'"
             placeholder="000.000.000-00"
             :required="true"
+            :valid="cpfValidation"
           />
 
           <!-- RG -->
@@ -146,6 +162,7 @@
             :mask="'##.###.###-#'"
             placeholder="00.000.000-0"
             :required="true"
+            :valid="rgValidation"
           />
 
           <!-- Birth -->
@@ -156,6 +173,7 @@
             class="col-lg-6"
             v-model="form.birth"
             :required="true"
+            :valid="birthValidation"
           />
 
           <!-- Gender -->
@@ -170,6 +188,7 @@
             v-model.number="form.weight"
             placeholder="Ex: 55,4"
             :required="true"
+            :valid="weightValidation"
           />
 
           <!-- Height -->
@@ -178,9 +197,10 @@
             id="height"
             label="Altura (cm)"
             class="col-lg-6"
-            v-model="form.height"
+            v-model.number="form.height"
             placeholder="Ex: 175"
             :required="true"
+            :valid="heightValidation"
           />
 
           <!-- Blood Type -->
@@ -326,10 +346,24 @@
       <template slot="modal-body">
         <div class="row">
           <!-- Name -->
-          <base-input id="nome-edit" label="Nome" v-model="form.name" class="col-lg-6" :required="true" />
+          <base-input
+            id="nome-edit"
+            label="Nome"
+            v-model="form.name"
+            class="col-lg-6"
+            :required="true"
+            :valid="nameValidation"
+          />
 
           <!-- E-mail -->
-          <base-input id="email-edit" label="E-mail" class="col-lg-6" v-model="form.email" :required="true" />
+          <base-input
+            id="email-edit"
+            label="E-mail"
+            class="col-lg-6"
+            v-model="form.email"
+            :required="true"
+            :valid="emailValidation"
+          />
 
           <!-- Phone -->
           <base-input
@@ -339,6 +373,7 @@
             v-model="form.phone"
             :mask="['(##) # ####-####', '(##) ####-####']"
             :required="true"
+            :valid="phoneValidation"
           />
 
           <!-- CPF -->
@@ -350,6 +385,7 @@
             :mask="'###.###.###-##'"
             placeholder="000.000.000-00"
             :required="true"
+            :valid="cpfValidation"
           />
 
           <!-- RG -->
@@ -361,6 +397,7 @@
             :mask="'##.###.###-#'"
             placeholder="00.000.000-0"
             :required="true"
+            :valid="rgValidation"
           />
 
           <!-- Birth -->
@@ -371,6 +408,7 @@
             class="col-lg-6"
             v-model="form.birth"
             :required="true"
+            :valid="birthValidation"
           />
 
           <!-- Gender -->
@@ -385,6 +423,7 @@
             v-model.number="form.weight"
             placeholder="Ex: 55,4"
             :required="true"
+            :valid="weightValidation"
           />
 
           <!-- Height -->
@@ -396,6 +435,7 @@
             v-model="form.height"
             placeholder="Ex: 175"
             :required="true"
+            :valid="heightValidation"
           />
 
           <!-- Blood Type -->
@@ -434,6 +474,7 @@
 import 'vue-good-table/dist/vue-good-table.css';
 import { VueGoodTable } from 'vue-good-table';
 import { mapGetters, mapActions } from 'vuex';
+import validator from 'validator';
 
 export default {
   components: {
@@ -470,6 +511,38 @@ export default {
     ...mapGetters({
       patients: 'patients/getPatients',
     }),
+
+    nameValidation() {
+      return this.form.name.split(' ').length >= 2;
+    },
+
+    emailValidation() {
+      return validator.isEmail(this.form.email);
+    },
+
+    phoneValidation() {
+      return this.form.phone.length >= 10;
+    },
+
+    cpfValidation() {
+      return this.form.cpf.length == 11;
+    },
+
+    rgValidation() {
+      return this.form.rg.length == 9;
+    },
+
+    birthValidation() {
+      return this.form.birth.length == 10;
+    },
+
+    weightValidation() {
+      return typeof this.form.weight == 'number' && this.form.weight > 0;
+    },
+
+    heightValidation() {
+      return typeof this.form.height == 'number' && this.form.height > 0;
+    },
 
     genderOptions() {
       return [
@@ -550,7 +623,7 @@ export default {
     },
 
     openViewModal(patientData) {
-      this.setForm(patientData);
+      this.setForm({ ...patientData, birth: patientData.birth.split('T')[0] });
       this.modals.view = true;
     },
 
@@ -558,6 +631,7 @@ export default {
       this.setForm({
         ...patientData,
         phone: patientData.phone.replace('+55', ''),
+        birth: patientData.birth.split('T')[0],
       });
 
       this.modals.edit = true;

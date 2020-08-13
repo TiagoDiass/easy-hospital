@@ -17,7 +17,7 @@
       :masked="masked"
       :type="type"
       class="form-control"
-      :class="inputClasses"
+      :class="[{ 'is-valid': valid === true }, { 'is-invalid': valid === false && required }, inputClasses]"
       :placeholder="placeholder"
       :autocomplete="autocomplete ? 'on' : 'off'"
     />
@@ -29,7 +29,7 @@
       :type="type"
       class="form-control"
       v-on="listeners"
-      :class="inputClasses"
+      :class="[{ 'is-valid': valid === true }, { 'is-invalid': valid === false }, inputClasses]"
       :value="value"
       :placeholder="placeholder"
       :autocomplete="autocomplete ? 'on' : 'off'"
@@ -118,6 +118,12 @@ export default {
       type: Boolean,
       default: false,
       description: 'Boolean that will say if the value of the input will be saved masked or not',
+    },
+
+    valid: {
+      type: Boolean,
+      default: null,
+      description: 'Boolean that says if the input is valid or invalid',
     },
   },
 

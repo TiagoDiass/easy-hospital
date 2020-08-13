@@ -5,3 +5,11 @@
 .text-bold {
   font-weight: 600;
 }
+
+.valid-border {
+  border: 1px solid $success;
+}
+
+.invalid-border {
+  border: 1px solid $danger;
+}

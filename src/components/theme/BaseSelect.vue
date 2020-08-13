@@ -5,7 +5,12 @@
       <span v-if="required">*</span>
     </slot>
 
-    <select :id="id" v-on="listeners" class="form-control" :class="selectClasses">
+    <select
+      :id="id"
+      v-on="listeners"
+      class="form-control"
+      :class="[{ 'is-valid': valid === true }, { 'is-invalid': valid === false }, selectClasses]"
+    >
       <option style="color: #000;" v-if="defaultOption" :value="null" selected>
         {{ defaultOption }}
       </option>
@@ -74,6 +79,12 @@ export default {
       type: [String, Number],
       description: 'Input value',
       default: '',
+    },
+
+    valid: {
+      type: Boolean,
+      default: null,
+      description: 'Boolean that says if the input is valid or invalid',
     },
   },
 

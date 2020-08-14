@@ -63,16 +63,11 @@ The aim of this project was practicing Vue, Vuex and Node, it was a kind of chal
 <img src="screenshots/3.png" width="800"/>
 <img src="screenshots/4.png" width="800"/>
 
-<h2 id="features" name="features">Features</h2><br><br>
-- [ ] Mercury
-- [x] Venus
-- [x] Earth (Orbit/Moon)
-- [x] Mars
-- [ ] Jupiter
-- [ ] Saturn
-- [ ] Uranus
-- [ ] Neptune
-- [ ] Comet Haley
+## Features
+
+- [x] :busts_in_silhouette: Patients module - Create, read, update and delete patients
+- [ ] :man_health_worker: Doctors module - Create, read, update and delete doctors
+- [ ] :watch: Appointments module - module to create appointments between doctors and patients
 
 ---
 

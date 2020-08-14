@@ -23,7 +23,7 @@
   <a href="https://easy-hospital.netlify.app" target="_blank">
     <img alt="Demo on Netlify" src="https://res.cloudinary.com/lukemorales/image/upload/v1563043495/readme_logos/demo_on_netlify_bbuvjz.png">
   </a><br><br>
-  <h4 align="center">(The API is online on Heroku, so, when you open the front-end with the link above, wait for 3 or 4 seconds until the API starts and gives you the data of the application)</h4>
+  <h4 align="center">(The API is online on Heroku, so, when you open the front-end with the link above, wait for 5 to 7 seconds until the API starts and gives you the data of the application)</h4>
 </p>
 
 <h2 id="techonologies" name="technologies">

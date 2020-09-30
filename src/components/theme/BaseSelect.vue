@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  name: 'base-select',
+  name: 'BaseSelect',
 
   props: {
     id: {

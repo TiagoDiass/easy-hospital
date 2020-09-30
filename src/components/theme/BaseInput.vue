@@ -34,6 +34,12 @@
       :placeholder="placeholder"
       :autocomplete="autocomplete ? 'on' : 'off'"
     />
+
+    <slot name="helpBlock">
+      <div class="text-danger invalid-feedback" style="display: block" v-if="error">
+        <slot name="errorBlock"></slot>
+      </div>
+    </slot>
   </div>
 </template>
 
@@ -42,7 +48,7 @@ import { mask, masked } from 'vue-the-mask';
 
 export default {
   directives: { mask, masked },
-  name: 'base-input',
+  name: 'BaseInput',
 
   inheritAttrs: false,
 
@@ -124,6 +130,11 @@ export default {
       type: Boolean,
       default: null,
       description: 'Boolean that says if the input is valid or invalid',
+    },
+
+    error: {
+      type: Boolean,
+      description: 'Is there an error? If so we will add a feedback below the input',
     },
   },
 

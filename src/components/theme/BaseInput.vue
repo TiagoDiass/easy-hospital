@@ -7,6 +7,7 @@
       </label>
     </slot>
 
+    <!-- Input with Mask -->
     <input
       v-if="mask"
       v-bind="$attrs"
@@ -17,11 +18,12 @@
       :masked="masked"
       :type="type"
       class="form-control"
-      :class="[{ 'is-valid': valid === true }, { 'is-invalid': valid === false && required }, inputClasses]"
+      :class="[{ 'is-valid': valid === true }, { 'is-invalid': valid === false && value }, inputClasses]"
       :placeholder="placeholder"
       :autocomplete="autocomplete ? 'on' : 'off'"
     />
 
+    <!-- Input without Mask -->
     <input
       v-else
       v-bind="$attrs"
@@ -29,7 +31,7 @@
       :type="type"
       class="form-control"
       v-on="listeners"
-      :class="[{ 'is-valid': valid === true }, { 'is-invalid': valid === false }, inputClasses]"
+      :class="[{ 'is-valid': valid === true }, { 'is-invalid': valid === false && value }, inputClasses]"
       :value="value"
       :placeholder="placeholder"
       :autocomplete="autocomplete ? 'on' : 'off'"
@@ -128,7 +130,7 @@ export default {
 
     valid: {
       type: Boolean,
-      default: null,
+      default: undefined,
       description: 'Boolean that says if the input is valid or invalid',
     },
 

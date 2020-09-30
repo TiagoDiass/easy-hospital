@@ -7,6 +7,7 @@ import './plugins/globalComponents';
 import './plugins/sweetAlert';
 import './plugins/axios';
 import './plugins/filters';
+import './plugins/vuelidate';
 
 // Running the styles of the app
 import './assets/styles/_main.scss';

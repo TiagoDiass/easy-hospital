@@ -31,7 +31,7 @@
 <script>
 import { SlideYUpTransition } from 'vue2-transitions';
 export default {
-  name: 'base-modal',
+  name: 'BaseModal',
 
   components: {
     SlideYUpTransition,

@@ -18,7 +18,7 @@
       :masked="masked"
       :type="type"
       class="form-control"
-      :class="[{ 'is-valid': valid === true }, { 'is-invalid': valid === false && value }, inputClasses]"
+      :class="[{ 'is-valid': valid === true }, { 'is-invalid': isInvalid }, inputClasses]"
       :placeholder="placeholder"
       :autocomplete="autocomplete ? 'on' : 'off'"
     />
@@ -31,7 +31,7 @@
       :type="type"
       class="form-control"
       v-on="listeners"
-      :class="[{ 'is-valid': valid === true }, { 'is-invalid': valid === false && value }, inputClasses]"
+      :class="[{ 'is-valid': valid === true }, { 'is-invalid': isInvalid }, inputClasses]"
       :value="value"
       :placeholder="placeholder"
       :autocomplete="autocomplete ? 'on' : 'off'"
@@ -56,6 +56,7 @@ export default {
 
   data: () => ({
     focused: false,
+    isInvalid: false,
   }),
 
   props: {
@@ -162,6 +163,21 @@ export default {
     onFocus(value) {
       this.focused = true;
       this.$emit('focus', value);
+    },
+  },
+
+  watch: {
+    value: {
+      immediate: true,
+      handler(newValue) {
+        if (newValue && this.valid === false) this.isInvalid = true;
+      },
+    },
+
+    valid(newValue) {
+      if (newValue === true) {
+        this.isInvalid = false;
+      }
     },
   },
 };

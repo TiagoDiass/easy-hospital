@@ -162,25 +162,20 @@ export default {
 
     onFocus(value) {
       this.focused = true;
+
       this.$emit('focus', value);
     },
   },
 
   watch: {
-    value: {
-      immediate: true,
-      handler(newValue) {
-        if (newValue && this.valid === false) this.isInvalid = true;
-      },
+    focused(newValue) {
+      // if the input is focused and valid is equal to false, we're gonna put the invalid class
+      if (newValue && this.valid === false) this.isInvalid = true;
     },
 
     valid(newValue) {
-      if (newValue === true) {
-        this.isInvalid = false;
-      }
+      this.isInvalid = newValue === true ? false : true;
     },
   },
 };
 </script>
-
-<style></style>

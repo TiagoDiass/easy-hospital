@@ -100,7 +100,7 @@
     </div>
 
     <!-- Create Modal -->
-    <base-modal size="lg" :show.sync="modals.create">
+    <BaseModal size="lg" :show.sync="modals.create">
       <template slot="modal-header">
         <h4 class="modal-title text-uppercase text-bold">
           Cadastrar Paciente
@@ -111,105 +111,160 @@
       <template slot="modal-body">
         <div class="row">
           <!-- Name -->
-          <base-input
+          <BaseInput
             id="nome"
             label="Nome"
-            v-model="form.name"
+            v-model="$v.form.name.$model"
             class="col-lg-6"
             :required="true"
-            :valid="nameValidation"
-          />
+            :valid="!$v.form.name.$invalid"
+            :error="$v.form.name.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.name.required">Nome é requerido</span>
+              <span v-else-if="!$v.form.name.isNameValid">Nome deve conter duas palavras</span>
+            </template>
+          </BaseInput>
 
           <!-- E-mail -->
-          <base-input
+          <BaseInput
             id="email"
             label="E-mail"
             class="col-lg-6"
-            v-model="form.email"
+            v-model="$v.form.email.$model"
             :required="true"
-            :valid="emailValidation"
-          />
+            :valid="!$v.form.email.$invalid"
+            :error="$v.form.email.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.email.required">E-mail é requerido</span>
+              <span v-else-if="!$v.form.email.isEmail">E-mail inválido</span>
+            </template>
+          </BaseInput>
 
           <!-- Phone -->
-          <base-input
+          <BaseInput
             id="phone"
             label="Telefone"
             class="col-lg-6"
-            v-model="form.phone"
-            :mask="['(##) # ####-####', '(##) ####-####']"
+            v-model="$v.form.phone.$model"
+            :mask="['(##) ####-####', '(##) #####-####']"
             :required="true"
-            :valid="phoneValidation"
-          />
+            :valid="!$v.form.phone.$invalid"
+            :error="$v.form.phone.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.phone.required">Número de telefone é requerido</span>
+              <span v-else-if="!$v.form.phone.minLength">Número de telefone deve ter no mínimo 10 digítos</span>
+            </template>
+          </BaseInput>
 
           <!-- CPF -->
-          <base-input
+          <BaseInput
             id="cpf"
             label="CPF"
             class="col-lg-6"
-            v-model="form.cpf"
+            v-model="$v.form.cpf.$model"
             :mask="'###.###.###-##'"
             placeholder="000.000.000-00"
             :required="true"
-            :valid="cpfValidation"
-          />
+            :valid="!$v.form.cpf.$invalid"
+            :error="$v.form.cpf.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.cpf.required">CPF é requerido</span>
+              <span v-else-if="!$v.form.cpf.minLength">CPF deve ter 11 dígitos</span>
+            </template>
+          </BaseInput>
 
           <!-- RG -->
-          <base-input
+          <BaseInput
             id="rg"
             label="RG"
             class="col-lg-6"
-            v-model="form.rg"
+            v-model="$v.form.rg.$model"
             :mask="'##.###.###-#'"
             placeholder="00.000.000-0"
             :required="true"
-            :valid="rgValidation"
-          />
+            :valid="!$v.form.rg.$invalid"
+            :error="$v.form.rg.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.rg.required">RG é requerido</span>
+              <span v-else-if="!$v.form.rg.minLength">RG deve ter 9 dígitos</span>
+            </template>
+          </BaseInput>
 
           <!-- Birth -->
-          <base-input
+          <BaseInput
             type="date"
             id="birth"
             label="Data de Nascimento"
             class="col-lg-6"
-            v-model="form.birth"
+            v-model="$v.form.birth.$model"
             :required="true"
-            :valid="birthValidation"
-          />
+            :valid="!$v.form.birth.$invalid"
+            :error="$v.form.birth.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.birth.required || !$v.form.birth.minLength">Data de nascimento é requerido</span>
+            </template>
+          </BaseInput>
 
           <!-- Gender -->
-          <base-select id="gender" label="Sexo" class="col-lg-6" v-model="form.gender" :options="genderOptions" />
+          <BaseSelect
+            id="gender"
+            label="Sexo"
+            class="col-lg-6"
+            v-model="form.gender"
+            :options="genderOptions"
+            :valid="true"
+          />
 
           <!-- Weight -->
-          <base-input
+          <BaseInput
             type="number"
             id="weight"
             label="Peso (Kg)"
             class="col-lg-6"
-            v-model.number="form.weight"
+            v-model.number="$v.form.weight.$model"
             placeholder="Ex: 55,4"
             :required="true"
-            :valid="weightValidation"
-          />
+            :valid="!$v.form.weight.$invalid"
+            :error="$v.form.weight.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.weight.required">Peso é requerido</span>
+              <span v-else-if="!$v.form.weight.minValue">Peso não pode ser menor que 1</span>
+            </template>
+          </BaseInput>
 
           <!-- Height -->
-          <base-input
+          <BaseInput
             type="number"
             id="height"
             label="Altura (cm)"
             class="col-lg-6"
-            v-model.number="form.height"
+            v-model.number="$v.form.height.$model"
             placeholder="Ex: 175"
             :required="true"
-            :valid="heightValidation"
-          />
+            :valid="!$v.form.height.$invalid"
+            :error="$v.form.height.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.height.required">Altura é requerida</span>
+              <span v-else-if="!$v.form.height.minValue">Altura deve ser um número inteiro maior que 1</span>
+            </template>
+          </BaseInput>
 
           <!-- Blood Type -->
-          <base-select
+          <BaseSelect
             id="bloodType"
             label="Tipo Sanguíneo"
             class="col-lg-6"
             v-model="form.blood_type"
             :options="bloodTypeOptions"
+            :valid="true"
           />
         </div>
       </template>
@@ -231,242 +286,7 @@
           </div>
         </div>
       </template>
-    </base-modal>
-
-    <!-- View modal -->
-    <base-modal size="lg" :show.sync="modals.view">
-      <template slot="modal-header">
-        <h4 class="modal-title text-uppercase text-bold">
-          Visualizar Paciente
-          <i class="fas fa-users"></i>
-        </h4>
-      </template>
-
-      <template slot="modal-body">
-        <div class="row">
-          <!-- Name -->
-          <base-input id="nome-view" label="Nome" :value="form.name" class="col-lg-6" readonly />
-
-          <!-- E-mail -->
-          <base-input id="email-view" label="E-mail" class="col-lg-6" :value="form.email" readonly />
-
-          <!-- Phone -->
-          <base-input
-            id="phone-view"
-            label="Telefone"
-            class="col-lg-6"
-            :value="form.phone"
-            :mask="['+55 (##) # ####-####', '+55 (##) ####-####']"
-            readonly
-          />
-
-          <!-- CPF -->
-          <base-input
-            id="cpf-view"
-            label="CPF"
-            class="col-lg-6"
-            :value="form.cpf"
-            :mask="'###.###.###-##'"
-            placeholder="000.000.000-00"
-            readonly
-          />
-
-          <!-- RG -->
-          <base-input
-            id="rg-view"
-            label="RG"
-            class="col-lg-6"
-            :value="form.rg"
-            :mask="'##.###.###-#'"
-            placeholder="00.000.000-0"
-            readonly
-          />
-
-          <!-- Birth -->
-          <base-input
-            type="date"
-            id="birth-view"
-            label="Data de Nascimento"
-            class="col-lg-6"
-            :value="form.birth"
-            readonly
-          />
-
-          <!-- Gender -->
-          <base-input id="gender-view" label="Sexo" class="col-lg-6" :value="getGender()" readonly />
-
-          <!-- Weight -->
-          <base-input
-            type="number"
-            id="weight-view"
-            label="Peso (Kg)"
-            class="col-lg-6"
-            :value="form.weight"
-            placeholder="Ex: 55,4"
-            readonly
-          />
-
-          <!-- Height -->
-          <base-input
-            type="number"
-            id="height-view"
-            label="Altura (cm)"
-            class="col-lg-6"
-            :value="form.height"
-            placeholder="Ex: 175"
-            readonly
-          />
-
-          <!-- Blood Type -->
-          <base-input id="bloodType-view" label="Tipo Sanguíneo" class="col-lg-6" :value="form.blood_type" readonly />
-        </div>
-      </template>
-
-      <template slot="modal-footer">
-        <div class="row d-flex justify-content-around">
-          <div class="col-12">
-            <base-button type="primary" class="col-12 icon-rotate" @click="modals.view = false">
-              Fechar
-              <i class="fas fa-times-circle"></i>
-            </base-button>
-          </div>
-        </div>
-      </template>
-    </base-modal>
-
-    <!-- Edit Modal -->
-    <base-modal size="lg" :show.sync="modals.edit">
-      <template slot="modal-header">
-        <h4 class="modal-title text-uppercase text-bold">
-          Editar Paciente
-          <i class="fas fa-users"></i>
-        </h4>
-      </template>
-
-      <template slot="modal-body">
-        <div class="row">
-          <!-- Name -->
-          <base-input
-            id="nome-edit"
-            label="Nome"
-            v-model="form.name"
-            class="col-lg-6"
-            :required="true"
-            :valid="nameValidation"
-          />
-
-          <!-- E-mail -->
-          <base-input
-            id="email-edit"
-            label="E-mail"
-            class="col-lg-6"
-            v-model="form.email"
-            :required="true"
-            :valid="emailValidation"
-          />
-
-          <!-- Phone -->
-          <base-input
-            id="phone-edit"
-            label="Telefone"
-            class="col-lg-6"
-            v-model="form.phone"
-            :mask="['(##) # ####-####', '(##) ####-####']"
-            :required="true"
-            :valid="phoneValidation"
-          />
-
-          <!-- CPF -->
-          <base-input
-            id="cpf-edit"
-            label="CPF"
-            class="col-lg-6"
-            v-model="form.cpf"
-            :mask="'###.###.###-##'"
-            placeholder="000.000.000-00"
-            :required="true"
-            :valid="cpfValidation"
-          />
-
-          <!-- RG -->
-          <base-input
-            id="rg-edit"
-            label="RG"
-            class="col-lg-6"
-            v-model="form.rg"
-            :mask="'##.###.###-#'"
-            placeholder="00.000.000-0"
-            :required="true"
-            :valid="rgValidation"
-          />
-
-          <!-- Birth -->
-          <base-input
-            type="date"
-            id="birth-edit"
-            label="Data de Nascimento"
-            class="col-lg-6"
-            v-model="form.birth"
-            :required="true"
-            :valid="birthValidation"
-          />
-
-          <!-- Gender -->
-          <base-select id="gender-edit" label="Sexo" class="col-lg-6" v-model="form.gender" :options="genderOptions" />
-
-          <!-- Weight -->
-          <base-input
-            type="number"
-            id="weight-edit"
-            label="Peso (Kg)"
-            class="col-lg-6"
-            v-model.number="form.weight"
-            placeholder="Ex: 55,4"
-            :required="true"
-            :valid="weightValidation"
-          />
-
-          <!-- Height -->
-          <base-input
-            type="number"
-            id="height-edit"
-            label="Altura (cm)"
-            class="col-lg-6"
-            v-model="form.height"
-            placeholder="Ex: 175"
-            :required="true"
-            :valid="heightValidation"
-          />
-
-          <!-- Blood Type -->
-          <base-select
-            id="bloodType-edit"
-            label="Tipo Sanguíneo"
-            class="col-lg-6"
-            v-model="form.blood_type"
-            :options="bloodTypeOptions"
-          />
-        </div>
-      </template>
-
-      <template slot="modal-footer">
-        <div class="row d-flex justify-content-around">
-          <div class="col-lg-6 mb-1">
-            <base-button type="secondary" class="col-12 icon-rotate" @click="closeModal('edit')">
-              Cancelar
-              <i class="fas fa-times-circle"></i>
-            </base-button>
-          </div>
-
-          <div class="col-lg-6 mb-1">
-            <base-button @click="editPatient" type="primary" class="col-12 icon-rotate">
-              Atualizar
-              <i class="fas fa-sync"></i>
-            </base-button>
-          </div>
-        </div>
-      </template>
-    </base-modal>
+    </BaseModal>
   </div>
 </template>
 
@@ -474,7 +294,9 @@
 import 'vue-good-table/dist/vue-good-table.css';
 import { VueGoodTable } from 'vue-good-table';
 import { mapGetters, mapActions } from 'vuex';
-import validator from 'validator';
+import { required, email, minLength, minValue } from 'vuelidate/lib/validators';
+
+import { Validations } from '../utils';
 
 export default {
   components: {
@@ -512,6 +334,7 @@ export default {
       patients: 'patients/getPatients',
     }),
 
+    /*
     nameValidation() {
       return this.form.name.split(' ').length >= 2;
     },
@@ -543,6 +366,7 @@ export default {
     heightValidation() {
       return typeof this.form.height == 'number' && this.form.height > 0;
     },
+    */
 
     genderOptions() {
       return [
@@ -743,6 +567,50 @@ export default {
       }
 
       return genderDesc;
+    },
+  },
+
+  validations: {
+    form: {
+      name: {
+        required,
+        isNameValid: Validations.nameValidation,
+      },
+
+      email: {
+        required,
+        isEmail: email,
+      },
+
+      phone: {
+        required,
+        minLength: minLength(10),
+      },
+
+      cpf: {
+        required,
+        minLength: minLength(11),
+      },
+
+      rg: {
+        required,
+        minLength: minLength(9),
+      },
+
+      birth: {
+        required,
+        minLength: minLength(10),
+      },
+
+      weight: {
+        required,
+        minValue: minValue(1),
+      },
+
+      height: {
+        required,
+        minValue: minValue(1),
+      },
     },
   },
 };

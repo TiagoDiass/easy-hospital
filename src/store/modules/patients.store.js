@@ -3,6 +3,7 @@ import Vue from 'vue';
 // Initial state
 const initialState = () => ({
   patients: [],
+  loading: false,
 });
 
 // State object
@@ -10,16 +11,18 @@ const state = initialState();
 
 // Getters
 const getters = {
-  getPatients(state) {
-    return state.patients;
-  },
+  getPatients: state => state.patients,
+
+  getLoadingState: state => state.loading,
 };
 
 // Actions
 const actions = {
   async fetchPatients({ commit }) {
+    commit('setLoadingState', true);
     const response = await Vue.prototype.$httpClient.get('/patients');
     commit('setPatients', response.data);
+    commit('setLoadingState', false);
   },
 
   async newPatient(_, { name, email, phone, cpf, rg, birth, gender, weight, height, blood_type }) {
@@ -85,6 +88,10 @@ const actions = {
 const mutations = {
   setPatients(state, data) {
     state.patients = data;
+  },
+
+  setLoadingState(state, data) {
+    state.loading = data;
   },
 };
 

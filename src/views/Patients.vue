@@ -8,7 +8,12 @@
       </p>
     </div>
 
-    <div class="view-content">
+    <div v-if="loading" class="view-content d-flex justify-content-center align-items-center">
+      <h1 class="text-primary loading-h1">
+        <i class="fas fa-spinner fa-3x"></i>
+      </h1>
+    </div>
+    <div v-else class="view-content">
       <base-button @click="openCreateModal" class="w-100" type="primary">
         Cadastrar Paciente
       </base-button>
@@ -622,6 +627,7 @@ export default {
   computed: {
     ...mapGetters({
       patients: 'patients/getPatients',
+      loading: 'patients/getLoadingState',
     }),
 
     genderOptions() {

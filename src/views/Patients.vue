@@ -272,17 +272,307 @@
       <template slot="modal-footer">
         <div class="row d-flex justify-content-around">
           <div class="col-lg-6 mb-1">
-            <base-button type="secondary" class="col-12 icon-rotate" @click="closeModal('create')">
+            <BaseButton type="secondary" class="col-12 icon-rotate" @click="closeModal('create')">
               Cancelar
               <i class="fas fa-times-circle"></i>
-            </base-button>
+            </BaseButton>
           </div>
 
           <div class="col-lg-6 mb-1">
-            <base-button @click="savePatient" type="primary" class="col-12 icon-rotate">
+            <BaseButton @click="savePatient" type="primary" class="col-12 icon-rotate">
               Salvar
               <i class="fas fa-save ml-1"></i>
-            </base-button>
+            </BaseButton>
+          </div>
+        </div>
+      </template>
+    </BaseModal>
+
+    <!-- Edit Modal -->
+    <BaseModal size="lg" :show.sync="modals.edit">
+      <template slot="modal-header">
+        <h4 class="modal-title text-uppercase text-bold">
+          Editar Paciente
+          <i class="fas fa-users"></i>
+        </h4>
+      </template>
+
+      <template slot="modal-body">
+        <div class="row">
+          <!-- Name -->
+          <BaseInput
+            id="nome-edit"
+            label="Nome"
+            v-model="$v.form.name.$model"
+            class="col-lg-6"
+            :required="true"
+            :valid="!$v.form.name.$invalid"
+            :error="$v.form.name.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.name.required">Nome é requerido</span>
+              <span v-else-if="!$v.form.name.isNameValid">Nome deve conter duas palavras</span>
+            </template>
+          </BaseInput>
+
+          <!-- E-mail -->
+          <BaseInput
+            id="email-edit"
+            label="E-mail"
+            class="col-lg-6"
+            v-model="$v.form.email.$model"
+            :required="true"
+            :valid="!$v.form.email.$invalid"
+            :error="$v.form.email.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.email.required">E-mail é requerido</span>
+              <span v-else-if="!$v.form.email.isEmail">E-mail inválido</span>
+            </template>
+          </BaseInput>
+
+          <!-- Phone -->
+          <BaseInput
+            id="phone-edit"
+            label="Telefone"
+            class="col-lg-6"
+            v-model="$v.form.phone.$model"
+            :mask="['(##) ####-####', '(##) #####-####']"
+            :required="true"
+            :valid="!$v.form.phone.$invalid"
+            :error="$v.form.phone.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.phone.required">Número de telefone é requerido</span>
+              <span v-else-if="!$v.form.phone.minLength">Número de telefone deve ter no mínimo 10 digítos</span>
+            </template>
+          </BaseInput>
+
+          <!-- CPF -->
+          <BaseInput
+            id="cpf-edit"
+            label="CPF"
+            class="col-lg-6"
+            v-model="$v.form.cpf.$model"
+            :mask="'###.###.###-##'"
+            placeholder="000.000.000-00"
+            :required="true"
+            :valid="!$v.form.cpf.$invalid"
+            :error="$v.form.cpf.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.cpf.required">CPF é requerido</span>
+              <span v-else-if="!$v.form.cpf.minLength">CPF deve ter 11 dígitos</span>
+            </template>
+          </BaseInput>
+
+          <!-- RG -->
+          <BaseInput
+            id="rg-edit"
+            label="RG"
+            class="col-lg-6"
+            v-model="$v.form.rg.$model"
+            :mask="'##.###.###-#'"
+            placeholder="00.000.000-0"
+            :required="true"
+            :valid="!$v.form.rg.$invalid"
+            :error="$v.form.rg.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.rg.required">RG é requerido</span>
+              <span v-else-if="!$v.form.rg.minLength">RG deve ter 9 dígitos</span>
+            </template>
+          </BaseInput>
+
+          <!-- Birth -->
+          <BaseInput
+            type="date-edit"
+            id="birth"
+            label="Data de Nascimento"
+            class="col-lg-6"
+            v-model="$v.form.birth.$model"
+            :required="true"
+            :valid="!$v.form.birth.$invalid"
+            :error="$v.form.birth.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.birth.required || !$v.form.birth.minLength">Data de nascimento é requerido</span>
+            </template>
+          </BaseInput>
+
+          <!-- Gender -->
+          <BaseSelect
+            id="gender-edit"
+            label="Sexo"
+            class="col-lg-6"
+            v-model="form.gender"
+            :options="genderOptions"
+            :valid="true"
+          />
+
+          <!-- Weight -->
+          <BaseInput
+            type="number-edit"
+            id="weight"
+            label="Peso (Kg)"
+            class="col-lg-6"
+            v-model.number="$v.form.weight.$model"
+            placeholder="Ex: 55,4"
+            :required="true"
+            :valid="!$v.form.weight.$invalid"
+            :error="$v.form.weight.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.weight.required">Peso é requerido</span>
+              <span v-else-if="!$v.form.weight.minValue">Peso não pode ser menor que 1</span>
+            </template>
+          </BaseInput>
+
+          <!-- Height -->
+          <BaseInput
+            type="number-edit"
+            id="height"
+            label="Altura (cm)"
+            class="col-lg-6"
+            v-model.number="$v.form.height.$model"
+            placeholder="Ex: 175"
+            :required="true"
+            :valid="!$v.form.height.$invalid"
+            :error="$v.form.height.$error"
+          >
+            <template slot="errorBlock">
+              <span v-if="!$v.form.height.required">Altura é requerida</span>
+              <span v-else-if="!$v.form.height.minValue">Altura deve ser um número inteiro maior que 1</span>
+            </template>
+          </BaseInput>
+
+          <!-- Blood Type -->
+          <BaseSelect
+            id="bloodType-edit"
+            label="Tipo Sanguíneo"
+            class="col-lg-6"
+            v-model="form.blood_type"
+            :options="bloodTypeOptions"
+            :valid="true"
+          />
+        </div>
+      </template>
+
+      <template slot="modal-footer">
+        <div class="row d-flex justify-content-around">
+          <div class="col-lg-6 mb-1">
+            <BaseButton type="secondary" class="col-12 icon-rotate" @click="closeModal('edit')">
+              Cancelar
+              <i class="fas fa-times-circle"></i>
+            </BaseButton>
+          </div>
+
+          <div class="col-lg-6 mb-1">
+            <BaseButton @click="editPatient" type="primary" class="col-12 icon-rotate">
+              Atualizar
+              <i class="fas fa-sync"></i>
+            </BaseButton>
+          </div>
+        </div>
+      </template>
+    </BaseModal>
+
+    <!-- View modal -->
+    <BaseModal size="lg" :show.sync="modals.view">
+      <template slot="modal-header">
+        <h4 class="modal-title text-uppercase text-bold">
+          Visualizar Paciente
+          <i class="fas fa-users"></i>
+        </h4>
+      </template>
+
+      <template slot="modal-body">
+        <div class="row">
+          <!-- Name -->
+          <BaseInput id="nome-view" label="Nome" :value="form.name" class="col-lg-6" readonly />
+
+          <!-- E-mail -->
+          <BaseInput id="email-view" label="E-mail" class="col-lg-6" :value="form.email" readonly />
+
+          <!-- Phone -->
+          <BaseInput
+            id="phone-view"
+            label="Telefone"
+            class="col-lg-6"
+            :value="form.phone"
+            :mask="['+55 (##) # ####-####', '+55 (##) ####-####']"
+            readonly
+          />
+
+          <!-- CPF -->
+          <BaseInput
+            id="cpf-view"
+            label="CPF"
+            class="col-lg-6"
+            :value="form.cpf"
+            :mask="'###.###.###-##'"
+            placeholder="000.000.000-00"
+            readonly
+          />
+
+          <!-- RG -->
+          <BaseInput
+            id="rg-view"
+            label="RG"
+            class="col-lg-6"
+            :value="form.rg"
+            :mask="'##.###.###-#'"
+            placeholder="00.000.000-0"
+            readonly
+          />
+
+          <!-- Birth -->
+          <BaseInput
+            type="date"
+            id="birth-view"
+            label="Data de Nascimento"
+            class="col-lg-6"
+            :value="form.birth"
+            readonly
+          />
+
+          <!-- Gender -->
+          <BaseInput id="gender-view" label="Sexo" class="col-lg-6" :value="getGender()" readonly />
+
+          <!-- Weight -->
+          <BaseInput
+            type="number"
+            id="weight-view"
+            label="Peso (Kg)"
+            class="col-lg-6"
+            :value="form.weight"
+            placeholder="Ex: 55,4"
+            readonly
+          />
+
+          <!-- Height -->
+          <BaseInput
+            type="number"
+            id="height-view"
+            label="Altura (cm)"
+            class="col-lg-6"
+            :value="form.height"
+            placeholder="Ex: 175"
+            readonly
+          />
+
+          <!-- Blood Type -->
+          <BaseInput id="bloodType-view" label="Tipo Sanguíneo" class="col-lg-6" :value="form.blood_type" readonly />
+        </div>
+      </template>
+
+      <template slot="modal-footer">
+        <div class="row d-flex justify-content-around">
+          <div class="col-12">
+            <BaseButton type="primary" class="col-12 icon-rotate" @click="modals.view = false">
+              Fechar
+              <i class="fas fa-times-circle"></i>
+            </BaseButton>
           </div>
         </div>
       </template>
@@ -333,40 +623,6 @@ export default {
     ...mapGetters({
       patients: 'patients/getPatients',
     }),
-
-    /*
-    nameValidation() {
-      return this.form.name.split(' ').length >= 2;
-    },
-
-    emailValidation() {
-      return validator.isEmail(this.form.email);
-    },
-
-    phoneValidation() {
-      return this.form.phone.length >= 10;
-    },
-
-    cpfValidation() {
-      return this.form.cpf.length == 11;
-    },
-
-    rgValidation() {
-      return this.form.rg.length == 9;
-    },
-
-    birthValidation() {
-      return this.form.birth.length == 10;
-    },
-
-    weightValidation() {
-      return typeof this.form.weight == 'number' && this.form.weight > 0;
-    },
-
-    heightValidation() {
-      return typeof this.form.height == 'number' && this.form.height > 0;
-    },
-    */
 
     genderOptions() {
       return [
@@ -467,9 +723,11 @@ export default {
           icon: 'warning',
           title: 'Tem certeza?',
           text: 'Após fechar o formulário, todos os dados nele contido serão perdidos',
+          confirmButtonText: 'Sim',
           showCancelButton: true,
           cancelButtonText: 'Cancelar',
           cancelButtonColor: 'var(--danger)',
+          reverseButtons: true,
         })
         .then(result => {
           if (result.value) {

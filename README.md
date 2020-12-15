@@ -49,7 +49,7 @@
   :dart: The project's goal
 </h2>
 
-The aim of this project was practicing Vue, Vuex and Node, it was a kind of challenge that I made for myself to check if I could build some project like this one completely by myself. I enjoyed really much developing this WebApp and I loved the final result. With this project I've learned a lot about organization and structure in Vue.js apps, it was really good!
+The aim of this project was practicing Vue, Vuex and Node, it was a kind of challenge that I made for myself to check if I could build some project like this one completely by myself. I enjoyed really much developing this WebApp and I loved the final result. With this project I've learned a lot about organization and structure in Vue.js apps, it was really good! By the way, the backend repository is [here](https://github.com/TiagoDiass/easy-hospital-backend)
 
 <h2 id="final-result" name="final-result">
   :clipboard: Final Result

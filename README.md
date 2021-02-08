@@ -38,7 +38,7 @@
 - [Sweet Alert](https://sweetalert.js.org/) to give the user friendlier alerts
 - [Axios.js](https://github.com/axios/axios) to make the requests for the backend
 
-#### Back-end techs:
+#### Back-end([repository here](https://github.com/TiagoDiass/easy-hospital-backend)) techs:
 - [Node.js](https://nodejs.org/en/) To build the REST API in general
 - [Express.js](https://expressjs.com/) Framework for building REST APIs with Node.js
 - [Knex.js](http://knexjs.org/) to interact with the database
